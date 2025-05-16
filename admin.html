@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Login</title>
+</head>
+<body>
+  <h2>Admin Login</h2>
+  <input type="password" id="password" placeholder="Enter admin password">
+  <button onclick="login()">Login</button>
+
+  <div id="logArea" style="display:none;">
+    <h3>IP Log</h3>
+    <pre id="logOutput">Loading...</pre>
+  </div>
+
+  <script>
+    function login() {
+      const pwd = document.getElementById('password').value;
+      fetch('/admin?pwd=' + encodeURIComponent(pwd))
+        .then(res => res.text())
+        .then(data => {
+          if (data === 'Unauthorized') {
+            alert('Wrong password!');
+          } else {
+            document.getElementById('logArea').style.display = 'block';
+            document.getElementById('logOutput').textContent = data;
+          }
+        });
+    }
+  </script>
+</body>
+</html>
